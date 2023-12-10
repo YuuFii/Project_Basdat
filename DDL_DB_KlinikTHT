@@ -1,0 +1,42 @@
+use DB_Klinik_THT
+
+create table layanan_pasien (
+	id_layanan char(2),
+	layanan varchar(30),
+	harga float,
+	primary key(id_layanan)
+);
+
+create table dokter (
+	id_dokter char(5),
+	nama varchar(50),
+	spesialisasi varchar(255),
+	primary key(id_dokter),
+);
+
+create table pasien (
+	no_rekam_medis char(5),
+	nama varchar(100),
+	tanggal_lahir date,
+	alamat varchar(255),
+	no_hp varchar(12),
+	password varchar(255),
+	primary key(no_rekam_medis),
+);
+
+create table janji_temu (
+	no_invoice char(5),
+	invoice_date date,
+	no_rekam_medis char(5),
+	id_dokter char(5),
+	primary key (no_invoice),
+	foreign key(no_rekam_medis) references pasien(no_rekam_medis),
+	foreign key(id_dokter) references dokter(id_dokter)
+);
+
+create table transaksi (
+	no_invoice char(5),
+	id_layanan char(2),
+	foreign key(id_layanan) references layanan_pasien(id_layanan),
+	foreign key(no_invoice) references janji_temu(no_invoice)
+);
